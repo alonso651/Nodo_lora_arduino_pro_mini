@@ -22,6 +22,7 @@ aunque este no fue probado aún.
 Se utilizó la Banda de frecuencias ISM US915 MHz, que cuenta con 72 canales, 
 de los cuales solo utilizamos los 8 canales de la segunda sub banda (Sub Banda 1).
 Sub banda 1 (903.9 - 905.3 MHz): 
+
 	· Canal 0 - 903.9 MHz
 	· Canal 1 - 904.1 MHz
 	· Canal 2 - 904.3 MHz
@@ -40,23 +41,24 @@ Hardware
 
 Conexiones
 ----------
-   _____________________________
-  |   RFM95w   |Arduino Pro Mini|
-  |____________|________________|
-  |GND         |GND             |
-  |3.3v        |VCC (3.3v)      |
-  |MISO        |12              |
-  |MOSI        |11              |
-  |SCK         |13              |
-  |NSS         |10              |
-  |DIO0        |4               |
-  |DIO1        |5               |
-  |DIO2        |7               |
-  |____________|________________|
+	 _____________________________
+	|   RFM95w   |Arduino Pro Mini|
+	|____________|________________|
+	|GND         |GND             |
+	|3.3v        |VCC (3.3v)      |
+	|MISO        |12              |
+	|MOSI        |11              |
+	|SCK         |13              |
+	|NSS         |10              |
+	|DIO0        |4               |
+	|DIO1        |5               |
+	|DIO2        |7               |
+	|____________|________________|
 
 
 Modificaciónes hechas a la libreria LMIC 1.5 port to ESP8266 and Arduino:
 -------------------------------------------------------------------------
 lmic.cpp: LMIC_disableChannel(u1_t channel) 
-    //LMIC.channelMap[channel/4] &= ~(1<<(channel&0xF)); 
+
+	//LMIC.channelMap[channel/4] &= ~(1<<(channel&0xF)); 
     LMIC.channelMap[channel/16] &= ~(1<<(channel&0xF));
