@@ -1,6 +1,4 @@
-/*
-
-Nodo LoRa ABP Arduino Pro Mini 3v3 Atmega328p 8MHz
+/*Nodo LoRa ABP Arduino Pro Mini 3v3 Atmega328p 8MHz
 
   Banda de frecuencia US915 MHz
   Sub Banda 1 (903.9 - 905.3) ---> Configuración del Gateway Single Channel ESP
@@ -29,7 +27,7 @@ Nodo LoRa ABP Arduino Pro Mini 3v3 Atmega328p 8MHz
   |DIO2        |7               |
   |____________|________________|
 
- */
+*/
 
 
 #define WAIT_SECS 120
@@ -51,32 +49,32 @@ Nodo LoRa ABP Arduino Pro Mini 3v3 Atmega328p 8MHz
 #include <SPI.h>
 
 //---------------------------------------------------------
-// Sensor declarations
+// Declaracion de variables
 //---------------------------------------------------------
 
-// Frame Counter
+// Contador de tramas
 int count=0;
 
 // LoRaWAN Application identifier (AppEUI)
-// Not used in this example
+// No usado
 static const u1_t APPEUI[8] PROGMEM = { 0x02, 0x00, 0x00, 0x00, 0x00, 0xEE, 0xFF, 0xC0 };
 
-// LoRaWAN DevEUI, unique device ID (LSBF)
-// Not used in this example
+// LoRaWAN DevEUI
+// No usado
 static const u1_t DEVEUI[8] PROGMEM  = { 0x42, 0x42, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF };
 
-// LoRaWAN NwkSKey, network session key 
-// Use this key for The Things Network
+// LoRaWAN NwkSKey, Network Session Key 
+// Network Session Key The Things Network
 unsigned char NwkSkey[16] =     { 0xE9, 0x01, 0xE2, 0x79, 0x10, 0x18, 0xF1, 0x40, 0xB7, 0xF7, 0xBA, 0x6D, 0x5C, 0x04, 0x01, 0xB7 };
 
-// LoRaWAN AppSKey, application session key
-// Use this key to get your data decrypted by The Things Network
+// LoRaWAN AppSKey, Application Session Key
+// Application Session Key para desencriptación de mensajes en The Things Network
 unsigned char AppSkey[16] =   { 0x0E, 0xBE, 0x00, 0xE7, 0x66, 0x10, 0xE5, 0x3A, 0x19, 0x0B, 0xC6, 0x8C, 0x71, 0x1C, 0xAA, 0x22 };
 
-// LoRaWAN end-device address (DevAddr)
-// See http://thethingsnetwork.org/wiki/AddressSpace
 
 #define msbf4_read(p)   (u4_t)((u4_t)(p)[0]<<24 | (u4_t)(p)[1]<<16 | (p)[2]<<8 | (p)[3])
+
+// LoRaWAN end-device address (DevAddr)
 unsigned char DevAddr[4] = { 0x26, 0x06, 0x2C, 0xE1 };
 
 
@@ -84,18 +82,12 @@ unsigned char DevAddr[4] = { 0x26, 0x06, 0x2C, 0xE1 };
 // APPLICATION CALLBACKS
 // ----------------------------------------------------------------------------
 
-// Define the single channel and data rate (SF) to use
-// int channel = 7;
-// int dr = DR_SF7;
+// Desabilitar todos los canales, excepto el canal definido en el if de ForceTxSingleChannelDr()
+// Setear el SF en LMIC_setDrTxpow() al final de esta función.
+// Esto solo afecta a los mensajes enviados (uplinks). 
 
-// Disables all channels, except for the one defined above, and sets the
-// data rate (SF). This only affects uplinks; for downlinks the default
-// channels or the configuration from the OTAA Join Accept are used.
-//
-// Not LoRaWAN compliant; FOR TESTING ONLY!
-//
 void forceTxSingleChannelDr() {
-    for(int j=0; j<71; j++) { // For EU; for US use i<71
+    for(int j=0; j<71; j++) { // US i<71 canales
         if(j != 8) {
             LMIC_disableChannel(j);
         }
@@ -123,20 +115,23 @@ int debug=1;
 uint8_t mydata[64];
 static osjob_t sendjob;
 
+// ----------------------------------------------------------------------------
 // Pin mapping
-// These settings should be set to the GPIO pins of the device
-// you want to run the LMIC stack on.
-//
+// ----------------------------------------------------------------------------
+
 lmic_pinmap pins = {
-  .nss = 10,      // Connected to pin D10
-  .rxtx = 0,      // For placeholder only, Do not connected on RFM92/RFM95
-  .rst = 0,       // Needed on RFM92/RFM95? (probably not)
-  .dio = {4, 5, 7},   // Specify pin numbers for DIO0, 1, 2
-            // connected to D4, D5, D7 
+  .nss = 10,          // Conectado a D10 (Arduino Pro Mini)
+  .rxtx = 0,          // No conectar al RFM92/RFM95
+  .rst = 0,           // No conectar al RFM92/RFM95
+  .dio = {4, 5, 7},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
+                      // conectado a D4, D5, D7 (Arduino Pro Mini)
 };
 
+// ----------------------------------------------------------------------------
+// Declaración de funciones
+// ----------------------------------------------------------------------------
+
 void onEvent (ev_t ev) {
-    //debug_event(ev);
 
     switch(ev) {
       // scheduled data sent (optionally data received)
@@ -146,8 +141,7 @@ void onEvent (ev_t ev) {
           Serial.print("EV_TXCOMPLETE, tiempo: ");
           Serial.print((millis() / 1000)/2);
           Serial.println(" Segundos");
-          if(LMIC.dataLen) { // data received in rx slot after tx
-              //debug_buf(LMIC.frame+LMIC.dataBeg, LMIC.dataLen);
+          if(LMIC.dataLen) { // Datos recibidos en la ventana de recepción (RX slot) luego del envio de datos (TX)
               Serial.println("Data Received");
           }
           break;
@@ -157,11 +151,11 @@ void onEvent (ev_t ev) {
 }
 
 void do_send(osjob_t* j){
-    delay(1);                         // XXX delay is added for Serial
+    delay(1);                         // delay agregado para la comunicación serial
       Serial.print("Tiempo: ");
       Serial.print((millis() / 1000)/2);
       Serial.println(" Segundos");
-      // Show TX channel (channel numbers are local to LMIC)
+      // Muestra el canal TX 
       Serial.print("Enviado. Canal: ");
       Serial.println(LMIC.txChnl);
       Serial.print("Opmode check: ");
@@ -171,8 +165,7 @@ void do_send(osjob_t* j){
     } 
   else {
   
-    //Serial.print("ready to send: ");
-    strcpy((char *) mydata,"Arduino Pro Mini"); 
+    strcpy((char *) mydata,"Arduino Pro Mini"); //Mensaje que se envia a TTN
     LMIC_setTxData2(1, mydata, strlen((char *)mydata), 0);
     }
     // Schedule a timed job to run at the given timestamp (absolute system time)
@@ -180,36 +173,33 @@ void do_send(osjob_t* j){
          
 }
 
-// ====================================================================
+// ----------------------------------------------------------------------------
 // SETUP
-//
+// ----------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200);
 
-  // LMIC init
+  // Inicializacion de LMiC
   os_init();
-  // Reset the MAC state. Session and pending data transfers will be discarded.
+  // Definición de la banda de frecuencia a utilizar (No se si cumple alguna función esto aquí)
   #if defined(CFG_us915)
   LMIC.freq = 903900000;
   #endif
+  // Resetea el estado de la MAC. Sesión o datos pendientes de envio serán descartados
   LMIC_reset();
-  // Set static session parameters. Instead of dynamically establishing a session 
-  // by joining the network, precomputed session parameters are be provided.
+  // Establece la sesión con los parametros suministrados en la sección "Declaración de Variables"
   LMIC_setSession (0x1, msbf4_read(DevAddr), (uint8_t*)NwkSkey, (uint8_t*)AppSkey);
-  // Disable data rate adaptation
+  // Desabilita la adaptación de SF (configuración para nodos móviles)
   LMIC_setAdrMode(0);
-  // Disable link check validation
+  // Disabilita link check validation
   LMIC_setLinkCheckMode(0);
-  // Disable beacon tracking
+  // Desabilita beacon tracking
   LMIC_disableTracking ();
-  // Stop listening for downstream data (periodical reception)
+  // Desabilita la recepcion periodica de datos (configuración para dispositivos LoRaWAN Clase A)
   LMIC_stopPingable();
-  // Set data rate and transmit power (note: txpow seems to be ignored by the library)
-  //LMIC_setDrTxpow(DR_SF7,14);
-
-  // Only use one channel and SF
-  forceTxSingleChannelDr();
-  //
+  // Establece el canal, SF y potencia del transmisor para el envio de datos
+  forceTxSingleChannelDr(); //reemplazar valores en la definición de la función forceTxSingleChannelDr() en la sección "Declaración de funciones"
+  
 #if defined(__AVR__)
   Serial.println("AVR arch");
 #elif defined(ARDUINO_ARCH_ESP8266)
@@ -222,9 +212,9 @@ void setup() {
 
 }
 
-// ================================================================
+// ----------------------------------------------------------------------------
 // LOOP
-//
+// ----------------------------------------------------------------------------
 void loop() {
 
   do_send(&sendjob);
