@@ -10,8 +10,7 @@ Contiene la pila completa de LoRa y funciona en la plataforma Teensy, ESP8266 y 
 
 LMIC 1.5 port to ESP8266 and Arduino esta compuesta de dos bibliotecas existentes:
 
-1. La biblioteca LMIC-1.5 de IBM, que fue portada a Arduino IDE por Thomas Telkamp
-    y Matthijs Kooijman
+1. La biblioteca LMIC-1.5 de IBM, que fue portada a Arduino IDE por Thomas Telkamp y Matthijs Kooijman
 2. La pequeña implementación para Arduino hecha por Gerben den Hartog para Ideetron.
 
 
