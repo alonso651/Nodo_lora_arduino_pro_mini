@@ -2,7 +2,7 @@ Nodo loRaWan para Arduino Pro Mini Atmega328p 3.3v
 ==================================================
 Febrero de 2019 
 
-Este programa fue desarrollado a partir del código ejemplo de la libreria LMiC 1.51 port to ESP8266 and Arduino [LMiC-v1.51](libraries\lmic-v1.51/README.md), 
+Este programa fue desarrollado a partir del código ejemplo de la libreria LMiC 1.51 port to ESP8266 and Arduino [LMiC-v1.51](libraries/lmic-v1.51/README.md), 
 publicada en http://things4u.github.io por M. Westenberg.
 
 Esta libreria implementa la pila para una red LoRa.
