@@ -25,11 +25,11 @@ so there probably is a practical limit to what you can do there.
 Conditional Compile
 -------------------
 The code uses #defines to make conditional compilations for regular Arduino's, the Teensy
-family and the ESP8266 family
+family and the ESP8266 family.
 
 Do not forget to use the dedicated ESP8266 OneWire library (which is named OneWireESP8266)
 instead of the standard OneWire library shipped with the Arduino IDE. The latter is not
-fully compatible with 64-bit MCU's.
+fully compatible with 64-bit MCU's.  
 
 Supported ESP8266 MCU's
 ------------------------
