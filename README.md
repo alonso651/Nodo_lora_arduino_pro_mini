@@ -22,14 +22,14 @@ aunque este no fue probado aún.
 Se utilizó la Banda de frecuencias ISM US915 MHz, que cuenta con 72 canales, 
 de los cuales solo utilizamos los 8 canales de la segunda sub banda (Sub Banda 1).
 Sub banda 1 (903.9 - 905.3 MHz): 
-	. Canal 0 - 903.9 MHz
-	. Canal 1 - 904.1 MHz
-	. Canal 2 - 904.3 MHz
-	Canal 3 - 904.5 MHz
-	Canal 4 - 904.7 MHz
-	Canal 5 - 904.9 MHz
-	Canal 6 - 905.1 MHz
-	Canal 7 - 905.3 MHz
+	· Canal 0 - 903.9 MHz
+	· Canal 1 - 904.1 MHz
+	· Canal 2 - 904.3 MHz
+	· Canal 3 - 904.5 MHz
+	· Canal 4 - 904.7 MHz
+	· Canal 5 - 904.9 MHz
+	· Canal 6 - 905.1 MHz
+	· Canal 7 - 905.3 MHz
 Es posible utilizar los factores de esparcimiento SF (Spreading Factor) del 7 al 12, solo fue probado 
 con el SF7.
 
