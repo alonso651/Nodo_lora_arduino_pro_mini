@@ -4,6 +4,7 @@ Febrero de 2019
 
 Este programa fue desarrollado a partir del código ejemplo de la libreria LMiC 1.51 port to ESP8266 and Arduino [LMiC-v1.51](libraries\lmic-v1.51/README.md), 
 publicada en http://things4u.github.io por M. Westenberg.
+
 Esta libreria implementa la pila para una red LoRa.
 Contiene la pila completa de LoRa y funciona en la plataforma Teensy, ESP8266 y en el Ardino Atmega328.
 
@@ -17,10 +18,13 @@ LMIC 1.5 port to ESP8266 and Arduino esta compuesta de dos bibliotecas existente
 Nodo LoRaWAN
 ------------
 Este programa envia un paquete LoRaWAN válido con la lectura de sensores al servidor The Things Network (TTN).
+
 Utiliza el método de autenticación ABP, tambien es posible utilizar el método de activación OTAA, 
 aunque este no fue probado aún.
+
 Se utilizó la Banda de frecuencias ISM US915 MHz, que cuenta con 72 canales, 
 de los cuales solo utilizamos los 8 canales de la segunda sub banda (Sub Banda 1).
+
 Sub banda 1 (903.9 - 905.3 MHz): 
 
 	· Canal 0 - 903.9 MHz
