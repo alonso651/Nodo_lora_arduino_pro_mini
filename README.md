@@ -2,7 +2,7 @@ Nodo loRaWan para Arduino Pro Mini Atmega328p 3.3v
 ==================================================
 Febrero de 2019 
 
-Este programa fue desarrollado a partir del código ejemplo de la libreria LMIC 1.5 port to ESP8266 and Arduino, 
+Este programa fue desarrollado a partir del código ejemplo de la libreria LMiC 1.51 port to ESP8266 and Arduino [LMiC-v1.51](libraries\lmic-v1.51/README.md), 
 publicada en http://things4u.github.io por M. Westenberg.
 Esta libreria implementa la pila para una red LoRa.
 Contiene la pila completa de LoRa y funciona en la plataforma Teensy, ESP8266 y en el Ardino Atmega328.
@@ -22,9 +22,9 @@ aunque este no fue probado aún.
 Se utilizó la Banda de frecuencias ISM US915 MHz, que cuenta con 72 canales, 
 de los cuales solo utilizamos los 8 canales de la segunda sub banda (Sub Banda 1).
 Sub banda 1 (903.9 - 905.3 MHz): 
-	Canal 0 - 903.9 MHz
-	Canal 1 - 904.1 MHz
-	Canal 2 - 904.3 MHz
+	. Canal 0 - 903.9 MHz
+	. Canal 1 - 904.1 MHz
+	. Canal 2 - 904.3 MHz
 	Canal 3 - 904.5 MHz
 	Canal 4 - 904.7 MHz
 	Canal 5 - 904.9 MHz
