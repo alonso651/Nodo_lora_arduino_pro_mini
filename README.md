@@ -72,5 +72,5 @@ TTGO Pro Mini_LORA 20180926 - T-DEER:
 
 	· Es necesario conectar dos pines de la placa entre si (puente) D5 - IO1
 	· La definicion de pines es diferente que en el Arduino Pro Mini (Descomentar en el código fuente 
-		y comentar la definición de pines anterior)
+	y comentar la definición de pines anterior)
 	· Se lo programa como Arduino UNO (En Arduino IDE)
