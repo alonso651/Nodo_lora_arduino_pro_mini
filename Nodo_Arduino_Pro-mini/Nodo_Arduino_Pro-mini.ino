@@ -30,7 +30,7 @@
 */
 
 
-#define WAIT_SECS 120
+#define WAIT_SECS 60
 
 
 #if defined(__AVR__)
@@ -122,8 +122,8 @@ static osjob_t sendjob;
 lmic_pinmap pins = {
   .nss = 10,          // Conectado a D10 (Arduino Pro Mini)
   .rxtx = 0,          // No conectar al RFM92/RFM95
-  .rst = 0,           // No conectar al RFM92/RFM95
-  .dio = {4, 5, 7},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
+  .rst = 9,           // No conectar al RFM92/RFM95
+  .dio = {2, 5, 0},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
                       // conectado a D4, D5, D7 (Arduino Pro Mini)
 };
 
@@ -223,4 +223,3 @@ void loop() {
     delay(100);
   }
 }
-
