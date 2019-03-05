@@ -12,7 +12,7 @@
       //LMIC.channelMap[channel/4] &= ~(1<<(channel&0xF)); 
       LMIC.channelMap[channel/16] &= ~(1<<(channel&0xF));
 
-  Conexión de pines:
+  Conexión de pines (Arduino Pro Mini):
    _____________________________
   |   RFM95w   |Arduino Pro Mini|
   |____________|________________|
@@ -27,10 +27,14 @@
   |DIO2        |7               |
   |____________|________________|
 
+  Conexión de pines (TTGO Pro Mini_LORA - T-DEER):
+
+    Puente entre los pines D5 y IO1 (Necesario para que envie mas de un paquete)
 */
 
 
-#define WAIT_SECS 60
+#define WAIT_SECS 120   //60 Segundos en Arduino Pro Mini
+//#define WAIT_SECS 60  //60 Segundos en TTGO Pro Mini_LORA - T-DEER
 
 
 #if defined(__AVR__)
@@ -116,16 +120,28 @@ uint8_t mydata[64];
 static osjob_t sendjob;
 
 // ----------------------------------------------------------------------------
-// Pin mapping
+// Pin mapping (Arduino Pro Mini)
 // ----------------------------------------------------------------------------
 
 lmic_pinmap pins = {
   .nss = 10,          // Conectado a D10 (Arduino Pro Mini)
   .rxtx = 0,          // No conectar al RFM92/RFM95
-  .rst = 9,           // No conectar al RFM92/RFM95
-  .dio = {2, 5, 0},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
-                      // conectado a D4, D5, D7 (Arduino Pro Mini)
+  .rst = 0,           // No conectar al RFM92/RFM95
+  .dio = {4, 5, 7},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
+                      // Conectado a D4, D5, D7 (Arduino Pro Mini)
 };
+
+// ----------------------------------------------------------------------------
+// Pin mapping (TTGO Pro Mini_LORA 20180926 - T-DEER) 
+// ----------------------------------------------------------------------------
+
+// lmic_pinmap pins = {
+//   .nss = 10,          // Conectado a D10 (TTGO Pro Mini_LORA)
+//   .rxtx = 0,          // No conectar al RFM92/RFM95
+//   .rst = 9,           // Conectado a D9 (TTGO Pro Mini_LORA)
+//   .dio = {2, 5, 0},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
+//                       // Conectado a D2, D5, No Conectar (TTGO Pro Mini_LORA)
+// };
 
 // ----------------------------------------------------------------------------
 // Declaración de funciones
@@ -223,3 +239,4 @@ void loop() {
     delay(100);
   }
 }
+
