@@ -33,8 +33,9 @@
 */
 
 
-#define WAIT_SECS 120   //60 Segundos en Arduino Pro Mini
+//#define WAIT_SECS 120   //60 Segundos en Arduino Pro Mini
 //#define WAIT_SECS 60  //60 Segundos en TTGO Pro Mini_LORA - T-DEER
+#define WAIT_SECS 15  //15 Segundos en TTGO Pro Mini_LORA - T-DEER
 
 
 #if defined(__AVR__)
@@ -97,7 +98,7 @@ void forceTxSingleChannelDr() {
         }
     }
     // Set data rate (SF) and transmit power for uplink
-    LMIC_setDrTxpow(DR_SF7, 14);
+    LMIC_setDrTxpow(DR_SF10, 14);
 }
 
 // provide application router ID (8 bytes, LSBF)
@@ -123,25 +124,25 @@ static osjob_t sendjob;
 // Pin mapping (Arduino Pro Mini)
 // ----------------------------------------------------------------------------
 
-lmic_pinmap pins = {
-  .nss = 10,          // Conectado a D10 (Arduino Pro Mini)
-  .rxtx = 0,          // No conectar al RFM92/RFM95
-  .rst = 0,           // No conectar al RFM92/RFM95
-  .dio = {4, 5, 7},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
-                      // Conectado a D4, D5, D7 (Arduino Pro Mini)
-};
+// lmic_pinmap pins = {
+//   .nss = 10,          // Conectado a D10 (Arduino Pro Mini)
+//   .rxtx = 0,          // No conectar al RFM92/RFM95
+//   .rst = 0,           // No conectar al RFM92/RFM95
+//   .dio = {4, 5, 7},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
+//                       // Conectado a D4, D5, D7 (Arduino Pro Mini)
+// };
 
 // ----------------------------------------------------------------------------
 // Pin mapping (TTGO Pro Mini_LORA 20180926 - T-DEER) 
 // ----------------------------------------------------------------------------
 
-// lmic_pinmap pins = {
-//   .nss = 10,          // Conectado a D10 (TTGO Pro Mini_LORA)
-//   .rxtx = 0,          // No conectar al RFM92/RFM95
-//   .rst = 9,           // Conectado a D9 (TTGO Pro Mini_LORA)
-//   .dio = {2, 5, 0},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
-//                       // Conectado a D2, D5, No Conectar (TTGO Pro Mini_LORA)
-// };
+lmic_pinmap pins = {
+  .nss = 10,          // Conectado a D10 (TTGO Pro Mini_LORA)
+  .rxtx = 0,          // No conectar al RFM92/RFM95
+  .rst = 9,           // Conectado a D9 (TTGO Pro Mini_LORA)
+  .dio = {2, 5, 0},   // Especificación de pines DIO0, DIO1, DIO2 (RFM95)
+                      // Conectado a D2, D5, No Conectar (TTGO Pro Mini_LORA)
+};
 
 // ----------------------------------------------------------------------------
 // Declaración de funciones
@@ -155,7 +156,8 @@ void onEvent (ev_t ev) {
       case EV_TXCOMPLETE:
           // use this event to keep track of actual transmissions
           Serial.print("EV_TXCOMPLETE, tiempo: ");
-          Serial.print((millis() / 1000)/2);
+          //Serial.print((millis() / 1000)/2); //Pro Mini
+          Serial.print((millis() / 1000));
           Serial.println(" Segundos");
           if(LMIC.dataLen) { // Datos recibidos en la ventana de recepción (RX slot) luego del envio de datos (TX)
               Serial.println("Data Received");
@@ -169,7 +171,8 @@ void onEvent (ev_t ev) {
 void do_send(osjob_t* j){
     delay(1);                         // delay agregado para la comunicación serial
       Serial.print("Tiempo: ");
-      Serial.print((millis() / 1000)/2);
+      //Serial.print((millis() / 1000)/2); //Pro Mini
+      Serial.print((millis() / 1000));
       Serial.println(" Segundos");
       // Muestra el canal TX 
       Serial.print("Enviado. Canal: ");
@@ -239,4 +242,3 @@ void loop() {
     delay(100);
   }
 }
-

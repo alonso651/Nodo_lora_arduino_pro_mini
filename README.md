@@ -74,3 +74,5 @@ TTGO Pro Mini_LORA 20180926 - T-DEER:
 	· La definicion de pines es diferente que en el Arduino Pro Mini (Descomentar en el código fuente 
 	y comentar la definición de pines anterior)
 	· Se lo programa como Arduino UNO (En Arduino IDE)
+
+	.
